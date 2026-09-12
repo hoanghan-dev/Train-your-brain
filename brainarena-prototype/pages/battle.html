@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trận Đấu 1v1 Real-time — BrainArena</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="bg-main text-white position-relative">
+    <!-- US-04, US-08: 1v1 Battle Arena -->
+    <div class="content-container py-2 d-flex flex-column min-vh-100 justify-content-between">
+        <!-- 1. Real-time 1v1 HUD Header -->
+        <header class="battle-hud mb-2">
+            <div class="row align-items-center g-2">
+                <!-- Left: You -->
+                <div class="col-5">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <div class="avatar-ring-sm fs-5" id="battle-player-avatar">⚡</div>
+                        <div class="text-truncate">
+                            <div class="d-flex align-items-center gap-1">
+                                <span class="fw-bold text-xs text-cyan text-truncate" id="battle-player-name">Bạn</span>
+                                <span class="badge bg-primary text-xxs" id="battle-player-lvl">Lv.3</span>
+                            </div>
+                            <span class="text-xxs text-white-50" id="battle-player-pct">0%</span>
+                        </div>
+                    </div>
+                    <div class="progress-esports">
+                        <div class="progress-bar progress-bar-cyan" id="battle-player-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <!-- Center: Timer & VS -->
+                <div class="col-2 text-center px-0">
+                    <span class="badge bg-danger text-xxs px-1 py-0 mb-1">VS</span>
+                    <div class="timer-badge p-1 fs-6" id="battle-timer">0.0s</div>
+                </div>
+
+                <!-- Right: Opponent -->
+                <div class="col-5 text-end">
+                    <div class="d-flex align-items-center justify-content-end gap-2 mb-1">
+                        <div class="text-truncate">
+                            <div class="d-flex align-items-center justify-content-end gap-1">
+                                <span class="badge bg-danger text-xxs" id="battle-opp-lvl">Lv.3</span>
+                                <span class="fw-bold text-xs text-rose text-truncate" id="battle-opp-name">NeuroAce</span>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-end gap-1">
+                                <span class="badge bg-secondary text-xxs" id="opponent-hud-status">Bình thường</span>
+                                <span class="text-xxs text-white-50" id="battle-opponent-pct">0%</span>
+                            </div>
+                        </div>
+                        <div class="avatar-ring-sm fs-5 border-danger" id="battle-opp-avatar">🦊</div>
+                    </div>
+                    <div class="progress-esports">
+                        <div class="progress-bar progress-bar-rose" id="battle-opponent-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 2. Main Game Arena Container -->
+        <div id="battle-game-area" class="flex-grow-1 d-flex flex-column justify-content-center py-2 position-relative">
+            <!-- Dynamic Sub-view: Schulte or Stroop -->
+            <div id="schulte-view" class="d-none">
+                <div class="d-flex justify-content-between align-items-center mb-2 px-2">
+                    <span class="text-xs text-white-70">Mục tiêu tiếp theo: <b class="text-cyan fs-5" id="schulte-target">1</b></span>
+                    <div id="penalty-indicator" class="badge bg-danger text-white text-xs d-none">+1s Phạt!</div>
+                </div>
+                <div class="schulte-container mx-auto">
+                    <div id="schulte-grid" class="schulte-grid"></div>
+                </div>
+            </div>
+
+            <div id="stroop-view" class="d-none">
+                <div class="stroop-card mb-2">
+                    <span class="badge bg-dark border border-secondary text-xxs text-white-70 mb-1">CHỌN MÀU MỰC THỰC TẾ</span>
+                    <div id="stroop-word" class="stroop-word" style="font-size: 2.5rem; margin: 0.8rem 0;">ĐỎ</div>
+                    <div id="stroop-feedback" class="badge bg-dark text-white-50 text-xs">Phản xạ nhanh để vượt đối thủ</div>
+                </div>
+                <div id="stroop-buttons" class="stroop-buttons-grid"></div>
+            </div>
+        </div>
+
+        <!-- 3. Bottom Skills Bar (US-08: Max 3 Equipped Skills with Cooldowns) -->
+        <footer class="mt-2 pt-2 border-top border-secondary border-opacity-25">
+            <div class="d-flex align-items-center justify-content-between mb-1">
+                <span class="text-xxs text-white-50 fw-bold text-uppercase"><i class="bi bi-lightning-charge text-amber me-1"></i>Kỹ năng chiến thuật (Bấm kích hoạt):</span>
+                <span class="text-xxs text-cyan">Tối đa 3 kỹ năng</span>
+            </div>
+            <div class="d-flex justify-content-center gap-2" id="battle-skills-container">
+                <!-- 3 equipped skill buttons with cooldown overlays rendered here -->
+            </div>
+        </footer>
+    </div>
+
+    <!-- Countdown Overlay (3-2-1 BẮT ĐẦU!) -->
+    <div id="battle-countdown-overlay" class="position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-90 d-flex flex-column align-items-center justify-content-center" style="z-index: 9999;">
+        <div class="badge bg-primary-subtle text-cyan border border-info border-opacity-25 text-xs px-3 py-1 mb-3">
+            TRẬN ĐẤU ĐỐI KHÁNG 1V1
+        </div>
+        <div id="battle-countdown-number" class="display-1 fw-bold text-gradient-cyan mb-2 pop-in" style="font-size: 5rem;">
+            3
+        </div>
+        <p class="text-xs text-white-50 text-uppercase tracking-wider">Chuẩn bị phản xạ & kích hoạt kỹ năng...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/mock-data.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/skill.js"></script>
+    <script src="../js/schulte.js"></script>
+    <script src="../js/stroop.js"></script>
+    <script src="../js/pvp.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const challenge = urlParams.get('challenge') || 'schulte';
+            const level = parseInt(urlParams.get('level')) || 2;
+
+            const player = AppState.getPlayer();
+            const opponent = JSON.parse(localStorage.getItem(STORAGE_KEYS.OPPONENT)) || MOCK_OPPONENTS[0];
+
+            // Render HUD info
+            document.getElementById('battle-player-name').textContent = player.username;
+            document.getElementById('battle-player-avatar').textContent = player.avatar;
+            document.getElementById('battle-player-lvl').textContent = `Lv.${player.level}`;
+
+            document.getElementById('battle-opp-name').textContent = opponent.name;
+            document.getElementById('battle-opp-avatar').textContent = opponent.avatar;
+            document.getElementById('battle-opp-lvl').textContent = `Lv.${opponent.level}`;
+
+            // Switch sub-view
+            if (challenge === 'schulte') {
+                document.getElementById('schulte-view').classList.remove('d-none');
+            } else {
+                document.getElementById('stroop-view').classList.remove('d-none');
+            }
+
+            // Launch Battle Controller
+            window.activeBattle = new BattleController(challenge, level);
+            window.activeBattle.initBattle();
+        });
+    </script>
+</body>
+</html>

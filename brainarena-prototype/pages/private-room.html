@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phòng Thi Đấu Riêng — BrainArena</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="bg-main text-white">
+    <!-- US-05: Tạo phòng riêng và tham gia bằng mã phòng -->
+    <div class="app-layout">
+        <div id="global-header-placeholder"></div>
+
+        <div class="app-body">
+            <div id="desktop-sidebar-placeholder"></div>
+
+            <main class="main-viewport">
+                <div class="content-container">
+                    <div class="d-flex align-items-center gap-2 mb-4">
+                        <a href="pvp.html" class="btn btn-sm btn-icon-glass"><i class="bi bi-arrow-left"></i></a>
+                        <div>
+                            <h4 class="mb-0 fw-bold">Phòng Thi Đấu Riêng (Private Room)</h4>
+                            <p class="text-xs text-white-50 mb-0">Tạo mã PIN để mời bạn bè hoặc nhập mã PIN để vào phòng bạn bè</p>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <!-- Left: Create Room -->
+                        <div class="col-12 col-md-7">
+                            <div class="card-esports p-4 border-purple border-opacity-40 shadow-neon">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h5 class="mb-0 fw-bold d-flex align-items-center gap-2">
+                                        <i class="bi bi-door-open-fill text-purple"></i>
+                                        Tạo Phòng Mới
+                                    </h5>
+                                    <span class="badge bg-purple text-xxs">Chủ phòng</span>
+                                </div>
+
+                                <!-- Room Code Display Box -->
+                                <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-50 text-center mb-4">
+                                    <div class="text-xxs text-white-50 text-uppercase fw-bold mb-1">Mã Phòng Của Bạn (Room PIN)</div>
+                                    <div class="room-code-display fs-1 fw-bold text-gradient-cyan tracking-wider mb-2" id="display-room-pin">
+                                        BRAIN7
+                                    </div>
+                                    <button class="btn btn-sm btn-glass text-xs" id="btn-copy-pin">
+                                        <i class="bi bi-clipboard me-1"></i> Sao chép mã phòng
+                                    </button>
+                                </div>
+
+                                <!-- Room Info Details -->
+                                <div class="bg-dark bg-opacity-50 p-3 rounded-3 border border-secondary border-opacity-25 mb-4">
+                                    <div class="d-flex justify-content-between text-xs mb-2">
+                                        <span class="text-white-50">Thử thách:</span>
+                                        <span class="fw-bold text-white">Bảng Schulte (Schulte Table)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between text-xs mb-2">
+                                        <span class="text-white-50">Cấp độ:</span>
+                                        <span class="badge bg-primary text-xxs">Level 2 (Lưới 4x4)</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between text-xs">
+                                        <span class="text-white-50">Trạng thái phòng:</span>
+                                        <span class="badge bg-warning text-dark text-xxs" id="room-status-badge">Đang đợi bạn tham gia (1/2)</span>
+                                    </div>
+                                </div>
+
+                                <!-- Slot 1: You & Slot 2: Friend -->
+                                <div class="row g-2 mb-4">
+                                    <div class="col-6">
+                                        <div class="p-3 rounded-3 bg-primary bg-opacity-10 border border-primary border-opacity-25 text-center">
+                                            <div class="avatar-ring-sm mx-auto mb-2 fs-5">⚡</div>
+                                            <div class="fw-bold text-xs text-white">Bạn (Chủ phòng)</div>
+                                            <span class="badge bg-success text-xxs mt-1">Sẵn sàng</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 text-center" id="friend-slot">
+                                            <div class="avatar-ring-sm mx-auto mb-2 text-white-50 fs-5">?</div>
+                                            <div class="text-xs text-white-50" id="friend-name">Chờ đối thủ...</div>
+                                            <span class="badge bg-secondary text-xxs mt-1" id="friend-status">Chưa vào</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Mock Friend Joined Action for Prototype Demonstration -->
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-sm btn-glass text-xxs text-white-50 flex-grow-1" id="btn-simulate-join">
+                                        <i class="bi bi-robot me-1"></i> [Giả lập] Bạn bè vừa nhập mã vào phòng
+                                    </button>
+                                    <button type="button" class="btn btn-purple btn-lg fw-bold flex-grow-1 text-sm" id="btn-start-private-battle" disabled>
+                                        <i class="bi bi-play-fill me-1"></i> Bắt đầu thi đấu
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Join Room -->
+                        <div class="col-12 col-md-5">
+                            <div class="card-esports p-4 h-100 d-flex flex-column justify-content-between">
+                                <div>
+                                    <h5 class="mb-3 fw-bold d-flex align-items-center gap-2">
+                                        <i class="bi bi-box-arrow-in-right text-cyan"></i>
+                                        Tham Gia Bằng Mã Phòng
+                                    </h5>
+
+                                    <p class="text-xs text-white-70 mb-4">
+                                        Nhập mã PIN 6 ký tự mà bạn bè đã chia sẻ với bạn để cùng bước vào phòng thi đấu.
+                                    </p>
+
+                                    <div class="mb-4">
+                                        <label class="text-xxs text-white-50 fw-bold mb-2">NHẬP MÃ PHÒNG (6 KÝ TỰ):</label>
+                                        <input type="text" id="join-pin-input" class="form-control form-control-lg bg-dark border-secondary text-white text-uppercase tracking-wider fw-bold text-center fs-2 mb-3" placeholder="ABC123" maxlength="6">
+                                        <button class="btn btn-cyan btn-lg w-100 fw-bold text-sm" id="btn-join-room-act">
+                                            <i class="bi bi-door-open me-1"></i> Vào Phòng Thi Đấu
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 rounded-3 bg-dark border border-secondary border-opacity-25 text-xxs text-white-50">
+                                    <i class="bi bi-shield-lock me-1"></i> Phòng thi đấu riêng giúp bạn và bạn bè có trải nghiệm công bằng không bị người lạ làm phiền.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div id="mobile-bottom-nav-placeholder"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/mock-data.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/pvp.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Generate a fresh 6-char PIN
+            const roomData = PvPManager.createPrivateRoom('schulte', 2);
+            const pinDisplay = document.getElementById('display-room-pin');
+            pinDisplay.textContent = roomData.pin;
+
+            // Copy PIN
+            document.getElementById('btn-copy-pin').addEventListener('click', () => {
+                navigator.clipboard.writeText(roomData.pin).then(() => {
+                    showToast("Đã sao chép mã PIN", `Mã phòng: ${roomData.pin}`, "success");
+                }).catch(() => {
+                    showToast("Mã phòng", roomData.pin, "info");
+                });
+            });
+
+            // Simulate friend joining
+            const simBtn = document.getElementById('btn-simulate-join');
+            const startBtn = document.getElementById('btn-start-private-battle');
+            const roomBadge = document.getElementById('room-status-badge');
+            const friendName = document.getElementById('friend-name');
+            const friendStatus = document.getElementById('friend-status');
+
+            simBtn.addEventListener('click', () => {
+                SFX.victory();
+                roomBadge.textContent = "Cả hai đã sẵn sàng (2/2)";
+                roomBadge.className = "badge bg-success text-white text-xxs";
+                friendName.textContent = "NeuroAce (Bạn bè)";
+                friendStatus.textContent = "Sẵn sàng";
+                friendStatus.className = "badge bg-success text-xxs mt-1";
+                startBtn.disabled = false;
+                startBtn.className = "btn btn-cyan btn-lg fw-bold flex-grow-1 text-sm pulse-glow";
+                showToast("Bạn bè đã vào phòng!", "NeuroAce vừa tham gia. Nhấn 'Bắt đầu thi đấu' để vào trận!", "success");
+            });
+
+            startBtn.addEventListener('click', () => {
+                localStorage.setItem(STORAGE_KEYS.OPPONENT, JSON.stringify(MOCK_OPPONENTS[0]));
+                window.location.href = 'battle.html?challenge=schulte&level=2';
+            });
+
+            // Join Room input
+            document.getElementById('btn-join-room-act').addEventListener('click', () => {
+                const pin = document.getElementById('join-pin-input').value;
+                PvPManager.joinPrivateRoom(pin);
+            });
+        });
+    </script>
+</body>
+</html>

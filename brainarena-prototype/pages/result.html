@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết Quả Trận Đấu — BrainArena</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="bg-main text-white d-flex align-items-center justify-content-center min-vh-100 p-3">
+    <!-- US-08: Kết quả trận đấu và phần thưởng -->
+    <div class="card-esports p-4 p-md-5 max-w-md w-100 shadow-neon text-center" style="max-width: 500px;" id="result-card">
+        <!-- Result Outcome Header -->
+        <div class="mb-4">
+            <div class="display-3 mb-2" id="outcome-icon">🏆</div>
+            <h2 class="display-6 fw-bold mb-1" id="outcome-title">CHIẾN THẮNG!</h2>
+            <span class="badge bg-primary-subtle text-cyan border border-info border-opacity-25 text-xs px-3 py-1" id="outcome-subtitle">
+                Bảng Schulte • Level 2
+            </span>
+        </div>
+
+        <!-- Level Up / Skill Unlock Notification (Condition based on Section 21) -->
+        <div id="level-up-banner" class="d-none alert alert-warning border border-warning p-2 rounded-3 text-start mb-3 pop-in">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-arrow-up-circle-fill text-amber fs-4"></i>
+                <div>
+                    <div class="fw-bold text-xs text-amber mb-0">CHÚC MỪNG BẠN ĐÃ LÊN CẤP!</div>
+                    <div class="text-xxs text-white" id="level-up-detail">Bạn đã mở khóa kỹ năng mới: <b>Đóng Băng</b>!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Match Stats Grid -->
+        <div class="bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-4 text-start">
+            <div class="d-flex justify-content-between text-xs mb-2">
+                <span class="text-white-50">Thời gian của bạn:</span>
+                <span class="fw-bold text-cyan" id="stat-user-time">14.2s</span>
+            </div>
+            <div class="d-flex justify-content-between text-xs mb-2" id="row-opp-time">
+                <span class="text-white-50">Thời gian đối thủ:</span>
+                <span class="fw-bold text-rose" id="stat-opp-time">16.8s (<span id="stat-opp-name">NeuroAce</span>)</span>
+            </div>
+            <div class="d-flex justify-content-between text-xs mb-2">
+                <span class="text-white-50">Độ chính xác:</span>
+                <span class="fw-bold text-white" id="stat-accuracy">96%</span>
+            </div>
+            <div class="d-flex justify-content-between text-xs">
+                <span class="text-white-50">Kỹ năng đã sử dụng:</span>
+                <span class="fw-bold text-amber" id="stat-skills-used">2 lần</span>
+            </div>
+        </div>
+
+        <!-- Rewards Earned Section (US-09) -->
+        <div class="mb-4">
+            <div class="text-xxs text-white-50 text-uppercase fw-bold mb-2">PHẦN THƯỞNG NHẬN ĐƯỢC</div>
+            <div class="row g-2 justify-content-center">
+                <div class="col-4">
+                    <div class="p-2 rounded-2 bg-dark border border-secondary border-opacity-25">
+                        <div class="text-xs text-white-50">Kinh nghiệm</div>
+                        <div class="fw-bold text-cyan text-sm" id="reward-exp">+250 EXP</div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="p-2 rounded-2 bg-dark border border-secondary border-opacity-25">
+                        <div class="text-xs text-white-50">Brain Points</div>
+                        <div class="fw-bold text-amber text-sm" id="reward-bp">+75 BP</div>
+                    </div>
+                </div>
+                <div class="col-4" id="col-cups">
+                    <div class="p-2 rounded-2 bg-dark border border-secondary border-opacity-25">
+                        <div class="text-xs text-white-50">Điểm Cúp</div>
+                        <div class="fw-bold text-success text-sm" id="reward-cups">+30 🏆</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action CTAs -->
+        <div class="d-grid gap-2">
+            <button type="button" class="btn btn-cyan btn-lg fw-bold text-sm" onclick="playAgain()">
+                <i class="bi bi-arrow-repeat me-1"></i> Chơi Lại
+            </button>
+
+            <div class="row g-2">
+                <div class="col-6">
+                    <a href="leaderboard.html" class="btn btn-glass w-100 text-xs fw-bold">
+                        <i class="bi bi-trophy me-1"></i> Bảng Xếp Hạng
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="home.html" class="btn btn-glass w-100 text-xs fw-bold">
+                        <i class="bi bi-house me-1"></i> Về Trang Chủ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/mock-data.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const rawResult = localStorage.getItem(STORAGE_KEYS.BATTLE_RESULT);
+            let result = null;
+
+            if (rawResult) {
+                try {
+                    result = JSON.parse(rawResult);
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+
+            // Fallback mock if opened directly
+            if (!result) {
+                result = {
+                    outcome: 'VICTORY',
+                    gameType: 'Bảng Schulte',
+                    level: 2,
+                    userTime: 12.8,
+                    opponentName: 'NeuroAce',
+                    opponentTime: 15.2,
+                    accuracy: '100%',
+                    skillsUsed: 2,
+                    expGain: 250,
+                    pointsGain: 75,
+                    cupsGain: 30,
+                    levelUp: false
+                };
+            }
+
+            const isWin = result.outcome === 'VICTORY' || result.outcome === 'COMPLETED';
+            const outcomeTitle = document.getElementById('outcome-title');
+            const outcomeIcon = document.getElementById('outcome-icon');
+            const resultCard = document.getElementById('result-card');
+
+            if (isWin) {
+                outcomeTitle.textContent = result.outcome === 'COMPLETED' ? "HOÀN THÀNH!" : "CHIẾN THẮNG!";
+                outcomeTitle.className = "display-6 fw-bold mb-1 text-gradient-cyan";
+                outcomeIcon.textContent = "🏆";
+                resultCard.classList.add('border-primary');
+            } else {
+                outcomeTitle.textContent = "THẤT BẠI!";
+                outcomeTitle.className = "display-6 fw-bold mb-1 text-rose";
+                outcomeIcon.textContent = "💀";
+                resultCard.classList.add('border-danger');
+            }
+
+            document.getElementById('outcome-subtitle').textContent = `${result.gameType} • Level ${result.level}`;
+            document.getElementById('stat-user-time').textContent = `${result.userTime}s`;
+
+            if (result.opponentName) {
+                document.getElementById('stat-opp-name').textContent = result.opponentName;
+                document.getElementById('stat-opp-time').textContent = `${result.opponentTime}s (${result.opponentName})`;
+            } else {
+                document.getElementById('row-opp-time').style.display = 'none';
+                document.getElementById('col-cups').style.display = 'none';
+            }
+
+            document.getElementById('stat-accuracy').textContent = result.accuracy || '96%';
+            document.getElementById('stat-skills-used').textContent = `${result.skillsUsed || 0} lần`;
+            document.getElementById('reward-exp').textContent = `+${result.expGain} EXP`;
+            document.getElementById('reward-bp').textContent = `+${result.pointsGain} BP`;
+
+            if (result.cupsGain !== undefined) {
+                const cupsEl = document.getElementById('reward-cups');
+                if (result.cupsGain >= 0) {
+                    cupsEl.textContent = `+${result.cupsGain} 🏆`;
+                    cupsEl.className = "fw-bold text-success text-sm";
+                } else {
+                    cupsEl.textContent = `${result.cupsGain} 🏆`;
+                    cupsEl.className = "fw-bold text-danger text-sm";
+                }
+            }
+
+            // Check level up celebration
+            if (result.levelUp) {
+                const banner = document.getElementById('level-up-banner');
+                banner.classList.remove('d-none');
+                if (result.unlockedSkill) {
+                    document.getElementById('level-up-detail').innerHTML = `Bạn vừa mở khóa kỹ năng mới: <b>${result.unlockedSkill}</b>! Hãy vào Loadout trang bị ngay.`;
+                }
+            }
+        });
+
+        function playAgain() {
+            const rawResult = localStorage.getItem(STORAGE_KEYS.BATTLE_RESULT);
+            if (rawResult) {
+                const res = JSON.parse(rawResult);
+                if (res.opponentName) {
+                    window.location.href = `battle.html?challenge=${res.gameType.includes('Schulte') ? 'schulte' : 'stroop'}&level=${res.level}`;
+                    return;
+                } else {
+                    window.location.href = `${res.gameType.includes('Schulte') ? 'schulte' : 'stroop'}.html?level=${res.level}`;
+                    return;
+                }
+            }
+            window.location.href = 'challenges.html';
+        }
+    </script>
+</body>
+</html>

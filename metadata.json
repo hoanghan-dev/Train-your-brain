@@ -1,0 +1,6 @@
+{
+  "name": "BrainArena",
+  "description": "Casual Mind E-sports prototype featuring real-time 1v1 battles, Schulte Table & Stroop challenges, skill loadouts, badges, and weekly leaderboards.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

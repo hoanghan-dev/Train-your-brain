@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ Sơ Đấu Thủ — BrainArena</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="bg-main text-white">
+    <div class="app-layout">
+        <div id="global-header-placeholder"></div>
+
+        <div class="app-body">
+            <div id="desktop-sidebar-placeholder"></div>
+
+            <main class="main-viewport">
+                <div class="content-container">
+                    <!-- Profile Header Card -->
+                    <div class="card-esports p-4 mb-4 border-primary border-opacity-30 shadow-neon">
+                        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="avatar-ring-lg position-relative flex-shrink-0">
+                                    <span id="prof-avatar">⚡</span>
+                                    <span class="badge bg-primary position-absolute bottom-0 end-0 text-xxs px-2 py-0 border border-dark rounded-pill" id="prof-level-badge">Lv.3</span>
+                                </div>
+                                <div>
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <h4 class="mb-0 fw-bold" id="prof-username">BrainMaster</h4>
+                                        <span class="badge bg-dark border border-secondary text-xxs" id="prof-badge">⚡ Tia Chớp</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-3 text-xs text-white-70">
+                                        <span><i class="bi bi-envelope me-1"></i>player@brainarena.io</span>
+                                        <span><i class="bi bi-shield-check text-cyan me-1"></i>Hạng #18</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <a href="rewards.html" class="btn btn-sm btn-glass text-xs">
+                                    <i class="bi bi-award me-1"></i> Đổi Huy Hiệu
+                                </a>
+                                <button type="button" class="btn btn-sm btn-glass text-xs text-danger" onclick="confirmReset()">
+                                    <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Dữ Liệu
+                                </button>
+                            </div>
+                        </div>
+
+                        <hr class="border-secondary border-opacity-25 my-3">
+
+                        <!-- EXP Progress -->
+                        <div>
+                            <div class="d-flex justify-content-between text-xs text-white-70 mb-1">
+                                <span>Tiến trình Level 3 &rarr; Level 4:</span>
+                                <span class="fw-bold text-cyan" id="prof-exp-text">720 / 1000 EXP</span>
+                            </div>
+                            <div class="progress-esports">
+                                <div class="progress-bar progress-bar-cyan" id="prof-exp-bar" style="width: 72%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Matrix -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card text-center">
+                                <span class="text-xxs text-white-50 text-uppercase fw-bold">Điểm Brain Points</span>
+                                <div class="fs-4 fw-bold text-amber mt-1" id="prof-bp">1,250 BP</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card text-center">
+                                <span class="text-xxs text-white-50 text-uppercase fw-bold">Điểm Cúp Hạng</span>
+                                <div class="fs-4 fw-bold text-cyan mt-1" id="prof-cups">1,450 🏆</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card text-center">
+                                <span class="text-xxs text-white-50 text-uppercase fw-bold">Schulte Kỷ Lục</span>
+                                <div class="fs-4 fw-bold text-cyan mt-1" id="prof-sc-best">12.4s</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-card text-center">
+                                <span class="text-xxs text-white-50 text-uppercase fw-bold">Stroop Kỷ Lục</span>
+                                <div class="fs-4 fw-bold text-pink mt-1" id="prof-st-best">280 pts</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Equipped Skills in Loadout -->
+                    <div class="card-esports p-4 mb-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h6 class="fw-bold mb-0 text-white d-flex align-items-center gap-2">
+                                <i class="bi bi-magic text-cyan"></i>
+                                Bộ 3 Kỹ Năng Đang Trang Bị (Loadout)
+                            </h6>
+                            <a href="loadout.html" class="text-xs text-cyan text-decoration-none">Chỉnh sửa &rarr;</a>
+                        </div>
+                        <div class="row g-2" id="prof-skills-list">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Match History Table -->
+                    <div class="card-esports p-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h6 class="fw-bold mb-0 text-white d-flex align-items-center gap-2">
+                                <i class="bi bi-clock-history text-cyan"></i>
+                                Lịch Sử Thi Đấu
+                            </h6>
+                            <span class="text-xxs text-white-50">Lưu cục bộ tại trình duyệt</span>
+                        </div>
+                        <div id="prof-match-history">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div id="mobile-bottom-nav-placeholder"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/mock-data.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/skill.js"></script>
+    <script>
+        function confirmReset() {
+            if (confirm("Bạn có chắc chắn muốn khôi phục dữ liệu ban đầu? Thao tác này sẽ đặt lại level, điểm số và các kỹ năng để tiện test lại từ đầu.")) {
+                AppState.resetToDefault();
+                showToast("Đã khôi phục dữ liệu", "Hệ thống đã reset về trạng thái ban đầu.", "info");
+                setTimeout(() => window.location.reload(), 600);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const player = AppState.getPlayer();
+
+            document.getElementById('prof-avatar').textContent = player.avatar;
+            document.getElementById('prof-username').textContent = player.username;
+            document.getElementById('prof-level-badge').textContent = `Lv.${player.level}`;
+            document.getElementById('prof-bp').textContent = `${player.brainPoints.toLocaleString()} BP`;
+            document.getElementById('prof-cups').textContent = `${(player.cups || 1450).toLocaleString()} 🏆`;
+
+            const badge = BADGES_DATA.find(b => b.id === player.equippedBadge);
+            if (badge) {
+                document.getElementById('prof-badge').textContent = `${badge.icon} ${badge.name}`;
+            }
+
+            const expPct = Math.round((player.exp / player.maxExp) * 100);
+            document.getElementById('prof-exp-bar').style.width = `${expPct}%`;
+            document.getElementById('prof-exp-text').textContent = `${player.exp} / ${player.maxExp} EXP`;
+
+            if (player.challenges) {
+                if (player.challenges.schulte) {
+                    document.getElementById('prof-sc-best').textContent = player.challenges.schulte.bestTime ? `${player.challenges.schulte.bestTime}s` : 'Chưa có';
+                }
+                if (player.challenges.stroop) {
+                    document.getElementById('prof-st-best').textContent = player.challenges.stroop.bestScore ? `${player.challenges.stroop.bestScore} pts` : 'Chưa có';
+                }
+            }
+
+            // Render 3 equipped skills
+            const skillsList = document.getElementById('prof-skills-list');
+            const equipped = SkillManager.getEquippedSkills();
+            if (equipped.length === 0) {
+                skillsList.innerHTML = `<div class="col-12 text-xs text-white-50">Chưa trang bị kỹ năng nào.</div>`;
+            } else {
+                skillsList.innerHTML = equipped.map(s => `
+                    <div class="col-12 col-md-4">
+                        <div class="p-2 rounded-2 bg-dark border border-secondary border-opacity-25 d-flex align-items-center gap-2">
+                            <i class="bi ${s.icon} fs-4" style="color: ${s.badgeColor}"></i>
+                            <div>
+                                <div class="text-xs fw-bold text-white">${s.name}</div>
+                                <div class="text-xxs text-white-50">${s.type.toUpperCase()} • Hồi ${s.cooldown}s</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Render Match History
+            const histContainer = document.getElementById('prof-match-history');
+            const matches = player.recentMatches || [];
+            if (matches.length === 0) {
+                histContainer.innerHTML = `<div class="text-xs text-white-50 text-center py-3">Chưa có trận đấu nào.</div>`;
+            } else {
+                histContainer.innerHTML = matches.map(m => {
+                    const isWin = m.result === 'VICTORY' || m.result === 'COMPLETED';
+                    return `
+                        <div class="d-flex align-items-center justify-content-between p-3 rounded-2 mb-2 bg-dark bg-opacity-50 border border-secondary border-opacity-25">
+                            <div class="d-flex align-items-center gap-3">
+                                <span class="badge ${isWin ? 'bg-success' : 'bg-danger'} text-xxs px-2 py-1">${m.result}</span>
+                                <div>
+                                    <div class="text-sm fw-bold text-white">${m.challenge}</div>
+                                    <div class="text-xs text-white-50">vs ${m.opponent} • ${m.date}</div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="text-sm fw-bold text-cyan">${m.time}</div>
+                                <span class="text-xs text-amber">${m.points} BP</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        });
+    </script>
+</body>
+</html>
