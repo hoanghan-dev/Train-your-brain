@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ — BrainArena</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="bg-main text-white">
+    <!-- Global Shell -->
+    <div class="app-layout">
+        <div id="global-header-placeholder"></div>
+
+        <div class="app-body">
+            <div id="desktop-sidebar-placeholder"></div>
+
+            <main class="main-viewport">
+                <div class="content-container">
+                    <!-- Player Summary Header -->
+                    <div class="card-esports p-3 p-md-4 mb-4 border-primary border-opacity-25 shadow-neon">
+                        <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="avatar-ring-lg position-relative flex-shrink-0">
+                                    <span id="player-avatar">⚡</span>
+                                    <span class="badge bg-primary position-absolute bottom-0 end-0 text-xxs px-2 py-0 border border-dark rounded-pill" id="player-level-badge">Lv.3</span>
+                                </div>
+                                <div>
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <h4 class="mb-0 fw-bold" id="player-username">BrainMaster</h4>
+                                        <span class="badge bg-dark border border-secondary text-xxs" id="player-badge-name">⚡ Tia Chớp</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-3 text-xs text-white-70">
+                                        <span><i class="bi bi-trophy text-amber me-1"></i>Hạng: <b class="text-white" id="player-rank">#18</b></span>
+                                        <span><i class="bi bi-shield-check text-cyan me-1"></i>Điểm Cúp: <b class="text-white" id="player-cups">1,450</b></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-sm-end">
+                                <div class="text-xs text-white-50 mb-1">TIẾN TRÌNH LEVEL TIẾP THEO</div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="progress-esports flex-grow-1" style="min-width: 140px;">
+                                        <div class="progress-bar progress-bar-cyan" id="player-exp-bar" style="width: 72%;"></div>
+                                    </div>
+                                    <span class="text-xxs fw-bold text-cyan" id="player-exp-text">720 / 1000 EXP</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions Grid -->
+                    <div class="row g-3 mb-4">
+                        <!-- Action 1: Solo Challenge -->
+                        <div class="col-12 col-md-4">
+                            <a href="challenges.html" class="card-esports card-esports-interactive p-3 text-decoration-none text-white d-flex align-items-center gap-3 h-100">
+                                <div class="p-3 rounded-3 bg-primary bg-opacity-25 border border-primary border-opacity-50">
+                                    <i class="bi bi-lightning-charge-fill text-cyan fs-3"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1 fw-bold">Solo Challenge</h6>
+                                    <p class="text-xxs text-white-50 mb-0">Luyện tập Schulte & Stroop để mở khóa kỹ năng</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Action 2: PvP Matchmaking -->
+                        <div class="col-12 col-md-4">
+                            <a href="pvp.html" class="card-esports card-esports-interactive p-3 text-decoration-none text-white d-flex align-items-center gap-3 h-100 border-danger border-opacity-25">
+                                <div class="p-3 rounded-3 bg-danger bg-opacity-25 border border-danger border-opacity-50">
+                                    <i class="bi bi-controller text-rose fs-3"></i>
+                                </div>
+                                <div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <h6 class="mb-1 fw-bold">Đấu PvP 1v1</h6>
+                                        <span class="badge bg-danger text-xxs">HOT</span>
+                                    </div>
+                                    <p class="text-xxs text-white-50 mb-0">Ghép trận ngẫu nhiên so tài trong 90 giây</p>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Action 3: Private Room -->
+                        <div class="col-12 col-md-4">
+                            <a href="private-room.html" class="card-esports card-esports-interactive p-3 text-decoration-none text-white d-flex align-items-center gap-3 h-100 border-purple border-opacity-25">
+                                <div class="p-3 rounded-3 bg-purple bg-opacity-25 border border-purple border-opacity-50">
+                                    <i class="bi bi-people-fill text-purple fs-3"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1 fw-bold">Tạo Phòng Riêng</h6>
+                                    <p class="text-xxs text-white-50 mb-0">Tạo mã PIN 6 ký tự để thách đấu bạn bè</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Practice Progress Matrix -->
+                    <div class="row g-3 mb-4">
+                        <!-- Schulte Card -->
+                        <div class="col-12 col-md-6">
+                            <div class="card-esports p-3 h-100 border-primary border-opacity-25">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="bi bi-grid-3x3 text-cyan fs-4"></i>
+                                        <h6 class="mb-0 fw-bold">Bảng Schulte (Schulte Table)</h6>
+                                    </div>
+                                    <span class="badge bg-primary text-xxs" id="schulte-lvl-tag">Level 2 (4x4)</span>
+                                </div>
+                                <p class="text-xxs text-white-50 mb-3">Rèn luyện tốc độ bao quát và phản xạ tìm số từ bé đến lớn.</p>
+                                <div class="d-flex justify-content-between text-xs mb-1">
+                                    <span class="text-white-50">Kỷ lục: <b class="text-white" id="schulte-best">12.4s</b></span>
+                                    <span class="text-cyan fw-bold" id="schulte-pct-text">80%</span>
+                                </div>
+                                <div class="progress-esports mb-3">
+                                    <div class="progress-bar progress-bar-cyan" id="schulte-progress-bar" style="width: 80%;"></div>
+                                </div>
+                                <a href="schulte.html?level=2" class="btn btn-sm btn-glass text-xs w-100 fw-bold">
+                                    <i class="bi bi-play-fill me-1"></i> Luyện tập ngay
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Stroop Card -->
+                        <div class="col-12 col-md-6">
+                            <div class="card-esports p-3 h-100 border-danger border-opacity-25">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <i class="bi bi-palette2 text-pink fs-4"></i>
+                                        <h6 class="mb-0 fw-bold">Thử Thách Stroop (Stroop Test)</h6>
+                                    </div>
+                                    <span class="badge bg-danger text-xxs" id="stroop-lvl-tag">Level 1</span>
+                                </div>
+                                <p class="text-xxs text-white-50 mb-3">Cải thiện khả năng ức chế phản xạ sai: chọn đúng màu mực thực tế.</p>
+                                <div class="d-flex justify-content-between text-xs mb-1">
+                                    <span class="text-white-50">Điểm cao: <b class="text-white" id="stroop-best">280 pts</b></span>
+                                    <span class="text-pink fw-bold" id="stroop-pct-text">40%</span>
+                                </div>
+                                <div class="progress-esports mb-3">
+                                    <div class="progress-bar progress-bar-rose" id="stroop-progress-bar" style="width: 40%;"></div>
+                                </div>
+                                <a href="stroop.html?level=1" class="btn btn-sm btn-glass text-xs w-100 fw-bold">
+                                    <i class="bi bi-play-fill me-1"></i> Luyện tập ngay
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Matches Section -->
+                    <div class="card-esports p-3 p-md-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h6 class="fw-bold mb-0 text-white d-flex align-items-center gap-2">
+                                <i class="bi bi-clock-history text-cyan"></i>
+                                Trận Đấu Gần Đây
+                            </h6>
+                            <a href="profile.html" class="text-xxs text-cyan text-decoration-none">Xem toàn bộ lịch sử &rarr;</a>
+                        </div>
+
+                        <div id="recent-matches-container">
+                            <!-- Populated via home.page.js -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div id="mobile-bottom-nav-placeholder"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/data/mock-data.js"></script>
+    <script src="../js/utils/sound.js"></script>
+    <script src="../js/utils/toast.js"></script>
+    <script src="../js/core/app-state.js"></script>
+    <script src="../js/components/navigation.js"></script>
+    <script src="../js/pages/home.page.js"></script>
+</body>
+</html>

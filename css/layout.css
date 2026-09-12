@@ -1,0 +1,182 @@
+/**
+ * BrainArena Layout Shell
+ * Includes: App Layout, Universal Topbar, Desktop Sidebar, Mobile Bottom Nav, Viewport Containers
+ */
+
+.app-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.app-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Universal Topbar */
+.app-topbar {
+    height: 57px;
+    z-index: 1020;
+}
+
+.brand-logo-badge {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: var(--radius-sm);
+}
+
+.points-pill {
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    transition: all 0.2s ease;
+}
+
+.points-pill:hover {
+    background: rgba(245, 158, 11, 0.2);
+    transform: translateY(-1px);
+}
+
+.level-pill {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Desktop Sidebar */
+.desktop-sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    min-height: calc(100vh - 57px);
+}
+
+.sidebar-link {
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.sidebar-link:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-link.active {
+    color: var(--accent-cyan) !important;
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    font-weight: 700;
+}
+
+.sidebar-action-card {
+    background: rgba(0, 240, 255, 0.05);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+/* Main Viewport */
+.main-viewport {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    overflow-y: auto;
+    padding-bottom: 72px; /* Dành khoảng trống cho thanh điều hướng mobile */
+}
+
+@media (min-width: 768px) {
+    .main-viewport {
+        padding-bottom: 32px;
+    }
+}
+
+.content-container {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 1.25rem;
+}
+
+/* Mobile Bottom Navigation */
+.mobile-bottom-nav {
+    z-index: 1030;
+    height: 60px;
+}
+
+.mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.65rem;
+    transition: all 0.2s ease;
+}
+
+.mobile-nav-item:hover,
+.mobile-nav-item.active {
+    color: var(--accent-cyan);
+}
+
+.mobile-nav-item .nav-icon {
+    font-size: 1.25rem;
+    margin-bottom: 2px;
+}
+
+.mobile-nav-highlight {
+    position: relative;
+    top: -12px;
+}
+
+.pvp-circle-button {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4);
+    border: 2px solid #0a0e17;
+    margin-bottom: 2px;
+    transition: transform 0.2s ease;
+}
+
+.mobile-nav-highlight:active .pvp-circle-button {
+    transform: scale(0.95);
+}
+
+/* Base Animations */
+@keyframes pulseGlow {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.85; transform: scale(1.05); }
+}
+
+.pulse-glow {
+    animation: pulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes shakeEffect {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+
+.shake-anim {
+    animation: shakeEffect 0.4s ease;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    70% { transform: scale(1.08); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.pop-in {
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}

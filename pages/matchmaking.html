@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm Đối Thủ — BrainArena</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- App CSS -->
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body class="bg-main text-white d-flex align-items-center justify-content-center min-vh-100 p-3">
+    <!-- Matchmaking Screen -->
+    <div class="card-esports p-4 p-md-5 text-center max-w-md w-100 shadow-neon border-primary border-opacity-40" style="max-width: 480px;">
+        <div class="mb-4">
+            <div class="position-relative d-inline-block">
+                <div class="spinner-border text-cyan mb-2" style="width: 4.5rem; height: 4.5rem; border-width: 0.3em;" role="status">
+                    <span class="visually-hidden">Searching...</span>
+                </div>
+                <div class="position-absolute top-50 start-50 translate-middle">
+                    <i class="bi bi-controller fs-2 text-cyan"></i>
+                </div>
+            </div>
+            
+            <h4 class="fw-bold mb-1" id="mm-title">Đang Tìm Đối Thủ...</h4>
+            <p class="text-xs text-white-50" id="mm-subtitle">Hệ thống đang ghép cặp người chơi ngang trình độ</p>
+        </div>
+
+        <!-- Searching Animation Feed -->
+        <div class="bg-dark p-3 rounded-3 border border-secondary border-opacity-25 mb-4 text-start">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="text-xxs text-white-50">CHẾ ĐỘ:</span>
+                <span class="badge bg-primary text-xxs" id="mm-mode">Schulte Table • Level 2</span>
+            </div>
+            <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="text-xxs text-white-50">THỜI GIAN CHỜ:</span>
+                <span class="text-xs fw-bold text-cyan" id="mm-timer">00:00s</span>
+            </div>
+            <div class="d-flex align-items-center justify-content-between">
+                <span class="text-xxs text-white-50">TRẠNG THÁI:</span>
+                <span class="text-xs text-amber" id="mm-step">Đang quét hàng chờ (Queue)...</span>
+            </div>
+        </div>
+
+        <!-- Opponent Preview Card (Hidden until found) -->
+        <div id="opponent-found-card" class="d-none pop-in p-3 rounded-3 bg-primary bg-opacity-20 border border-info border-opacity-50 mb-4">
+            <div class="text-xs text-cyan fw-bold mb-2">🎉 ĐÃ TÌM THẤY ĐỐI THỦ!</div>
+            <div class="d-flex align-items-center justify-content-center gap-3">
+                <div class="avatar-ring-sm fs-4" id="opp-avatar">🦊</div>
+                <div class="text-start">
+                    <div class="fw-bold text-white text-sm" id="opp-name">NeuroAce</div>
+                    <div class="text-xxs text-white-50" id="opp-stats">Lv.3 • Rank #17 • Winrate 64%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cancel CTA -->
+        <div>
+            <button type="button" id="btn-cancel" class="btn btn-glass btn-sm text-white-50 hover-danger px-4">
+                <i class="bi bi-x-circle me-1"></i> Hủy tìm trận
+            </button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/data/mock-data.js"></script>
+    <script src="../js/utils/sound.js"></script>
+    <script src="../js/utils/toast.js"></script>
+    <script src="../js/core/app-state.js"></script>
+    <script src="../js/core/pvp-manager.js"></script>
+    <script src="../js/pages/matchmaking.page.js"></script>
+</body>
+</html>
